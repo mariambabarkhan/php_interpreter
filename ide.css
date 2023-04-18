@@ -1,0 +1,142 @@
+/* Set a background color for the body */
+body {
+    background-color: #f2f2f2;
+    background-image: url("bg.jpg");
+    background-size: 100%;
+
+  }
+
+  :root {
+    --bgc: #3d157e;
+    --tc: #fcf8ffe3;
+  }
+  
+  /* Add some padding to the components and programmable area */
+  #components{
+    margin-top: 5%;
+    padding: 10px;
+    width: 100%;
+    opacity: 65%;
+    height: 30%;
+    background-color: var(--bgc);
+  }
+
+  #programmable-area {
+    margin-top: 3%;
+    margin-left: 1%;
+    width: 38%;
+    border-radius: 25px;
+    height: 60%;
+    font-size: larger;
+    font-weight:500;
+    position: absolute;
+    color: var(--tc);
+    opacity: 65%;
+    background-color: var(--bgc);
+  }
+  
+  /* Style the components */
+  .component {
+    background-color: var(--tc);
+    border: 1px solid #999;
+    color: var(--bgc);
+    border-radius: 50px;
+    display: inline-block;
+    margin: 5px;
+    position: relative;
+    text-align: center;
+    font-size: large;
+    top:10%;
+    font-weight: bold;
+    padding: 10px;
+    width: 15%;
+    height: 30%;
+    user-select: none;
+  }
+  
+
+  /* Style the components */
+  .dropstyle {
+    background-color: rgb(224, 171, 255);
+    width: 20%;
+    color: rgb(65, 6, 133);
+    height: 10%;
+    border-radius: 25px;
+  }
+  
+  /* Change the cursor to indicate that the components are draggable */
+  .component[draggable="true"] {
+    cursor: move;
+  }
+  
+  /* Style the output area */
+  #output {
+    background-color: var(--bgc);
+    border: 1px solid #59116b;
+    border-radius: 0 0 25px 25px;
+    top: 65%;
+    left: 1px;
+    position: absolute;
+    width: 100%;
+    height: 35%;
+    padding: 10px;
+    color: var(--tc);
+  }
+
+  /* Style the output area */
+  #code {
+    margin: 40%;
+    opacity: 65%;
+    background-color: var(--bgc);
+    border: 1px solid #999;
+    border-radius: 25px;
+    color: var(--tc);
+    margin-top: 3%;
+    text-align: left;
+    font-size: larger;
+    font-weight:500;
+    position: absolute;
+    width: 59%;
+    height: 60%;
+    padding: 10px;
+  }
+  
+  .button {
+    background-color: var(--tc);
+    border-radius: 50%;
+    color: var(--bgc);
+    cursor: pointer;
+    font-size: 100%;
+    margin-top: 10px;
+    margin-left:30%;
+    left: auto;
+    top:79%;
+    position: fixed;
+    text-align:justify;
+    height: 60px;
+    padding: 5px;
+    font-weight:bolder;
+    width: 60px;
+  }
+  
+  /* Change the button color on hover */
+  button:hover {
+    background-color: #9596e0b7;
+  }
+  
+  /* Center the components and programmable area */
+  #components, #programmable-area {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Add a box-shadow effect on the components on hover */
+  .component:hover {
+    box-shadow: 3px 3px 10px #a289ff;
+  }
+
+  .myElement{
+    height:10px;
+    background-color: #e7c6f0;
+    width:30px;
+  }
