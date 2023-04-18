@@ -22,6 +22,9 @@
             <div class="component" id="variable" draggable="true" ondragstart="dragStart(event)">
                 <span>Variables</span>
             </div>
+            <div class="component" id="print" draggable="true" ondragstart="dragStart(event)">
+                <span>Print</span>
+            </div>
             <div class="component" id="math" draggable="true" ondragstart="dragStart(event)">
                 <span>Math</span>
             </div>
@@ -43,12 +46,16 @@
         </div>
 
         <div id="programmable-area"> DRAG & DROP AREA
-            <button id="run-button" class="button">Run</button>
+            <button id="run-button" class="button run">Generate</button>
+            <button id="exec-button" class="button exec" onclick="runCode()">Execute</button>
 
-            <button id="clear-button" class="button">Clear</button>
         </div>
-        <div id="code">PHP CODE
-            <div id="output"> OUTPUT</div>
+        <div></div>
+        <div id="code">
+            PHP CODE
+            <div id="codeshow"></div>
+            OUTPUT
+            <div id="outputshow"></div>
         </div>
     </div>
     <script src="ide.js"></script>

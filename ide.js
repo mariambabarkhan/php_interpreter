@@ -6,14 +6,15 @@ const LOOP = "loop";
 const CONDITIONAL = "conditional";
 const RFILE = "rfile";
 const WFILE = "wfile";
+const PRINT = "print";
 
 // Get DOM elements
 const components = document.getElementById("components");
 const programmableArea = document.getElementById("programmable-area");
 const runButton = document.getElementById("run-button");
 const clearButton = document.getElementById("clear-button");
-const code = document.getElementById("code");
-const output = document.getElementById("output");
+const code = document.getElementById("codeshow");
+const output = document.getElementById("outputshow");
 
 
 
@@ -26,7 +27,7 @@ programmableArea.addEventListener("drop", drop);
 function run() {
     console.log('i run')
     const mycode = generateCode();
-    code.firstChild.textContent += mycode;
+    code.innerHTML = mycode;
 }
 
 runButton.addEventListener("click", run);
@@ -56,6 +57,7 @@ function drop(event) {
     const type = event.dataTransfer.getData("text/plain");
     let component = document.createElement('div')
     programmableArea.appendChild(component);
+    component.setAttribute('class', type);
     dropdiv(type, component)
 }
 
@@ -77,42 +79,77 @@ form.addEventListener('submit', function (event) {
         });
 });
 
+//give classes instead of ids to input fields inside the divs
+
 function dropdiv(id, parent) {
     console.log(id)
     switch (id) {
+
+        case PRINT:
+            parent.innerHTML += `
+            <div>
+
+                <label for="message">Message:</label>
+                <input type="text" name="message" class="message"><br><br>
+            
+            </div>`
+            break;
+
 
         case VARIABLE:
             parent.innerHTML += `
             <div class='varElem'></div>
             <label for='varname'>SET</label>
-            <input id='varname' name='varname'> 
+            <input class='varname' id='varname' name='varname'> 
             <label for='varValue'>TO</label>
-            <input id='varValue' name='varValue'>
+            <input class='varValue' id='varValue' name='varValue'>
             `
             break;
 
 
         case MATH:
-            parent.innerHTML += `
-            <div>
-  <form action="math.php" method="post">
-    <label for="value1">Value 1:</label>
-    <input type="number" name="value1" id="value1"><br><br>
+//             parent.innerHTML += `
+//             <div>
+//   <form action="math.php" method="post">
+//     <label for="value1">Value 1:</label>
+//     <input type="number" name="value1" id="value1"><br><br>
     
-    <label for="value2">Value 2:</label>
-    <input type="number" name="value2" id="value2"><br><br>
+//     <label for="value2">Value 2:</label>
+//     <input type="number" name="value2" id="value2"><br><br>
 
-    <label for="operation">Operation:</label>
-    <select name="operation" id="operation">
-      <option value="add">Addition</option>
-      <option value="subtract">Subtraction</option>
-      <option value="multiply">Multiplication</option>
-      <option value="divide">Division</option>
-    </select><br><br>
+//     <label for="operation">Operation:</label>
+//     <select name="operation" id="operation">
+//       <option value="add">Addition</option>
+//       <option value="subtract">Subtraction</option>
+//       <option value="multiply">Multiplication</option>
+//       <option value="divide">Division</option>
+//     </select><br><br>
 
-    <input type="submit" value="Calculate">
-  </form>
-</div>
+//     <input type="submit" value="Calculate">
+//   </form>
+// </div>
+
+        parent.innerHTML += `
+        <div>
+        
+        <label for="value1">Store in</label>
+        <input type="text" name="result" class="result"><br><br>
+
+            <label for="value1">Value 1:</label>
+            <input type="number" name="value1" class="value1"><br><br>
+
+            <label for="value2">Value 2:</label>
+            <input type="number" name="value2" class="value2"><br><br>
+
+            <label for="operation">Operation:</label>
+            <select name="operation" class="operation">
+                <option value="+">Addition</option>
+                <option value="-">Subtraction</option>
+                <option value="*">Multiplication</option>
+                <option value="/">Division</option>
+            </select><br><br>
+
+        </div>
 
             `
             break;
@@ -121,13 +158,10 @@ function dropdiv(id, parent) {
         case FUNCTION:
             parent.innerHTML += `
             <div>
-  <form action="message.php" method="post">
-    <label for="message">Message:</label>
-    <input type="text" name="message" id="message"><br><br>
+                <label for="message">Message:</label>
+                <input type="text" name="message" class="message"><br><br>
 
-    <input type="submit" value="Submit">
-  </form>
-</div>`
+            </div>`
 
             break;
 
@@ -222,50 +256,66 @@ function dropdiv(id, parent) {
 function generateCode() {
     console.log("generate code is running")
     let genCode = "";
-    const subcomponent = components.children;
+    const subcomponent = programmableArea.children;
     for (let i = 0; i < subcomponent.length; i++) {
         const curr_subc = subcomponent[i];
-        if (curr_subc.id == VARIABLE) {
-            genCode += generateVariableCode();
+        
+        if (curr_subc.classList.contains(VARIABLE)) {
+            genCode += generateVariableCode(curr_subc);
         }
-        else if (curr_subc.id == MATH) {
-            genCode += generateMathCode();
+        else if (curr_subc.classList.contains(MATH)) {
+            genCode += generateMathCode(curr_subc);
         }
-        else if (curr_subc.id == FUNCTION) {
-            genCode += generateFunctionCode();
+        else if (curr_subc.classList.contains(FUNCTION)) {
+            genCode += generateFunctionCode(curr_subc);
         }
-        else if (curr_subc.id == LOOP) {
-            genCode += generateLoopCode();
+        else if (curr_subc.classList.contains(LOOP)) {
+            genCode += generateLoopCode(curr_subc);
         }
-        else if (curr_subc.id == CONDITIONAL) {
-            genCode += generateConditionalCode();
+        else if (curr_subc.classList.contains(CONDITIONAL)) {
+            genCode += generateConditionalCode(curr_subc);
         }
-        else if (curr_subc.id == RFILE) {
-            genCode += generateReadFileCode();
+        else if (curr_subc.classList.contains(RFILE)) {
+            genCode += generateReadFileCode(curr_subc);
         }
-        else if (curr_subc.id == WFILE) {
-            genCode += generateWriteFileCode();
+        else if (curr_subc.classList.contains(WFILE)) {
+            genCode += generateWriteFileCode(curr_subc);
+        } else if (curr_subc.classList.contains(PRINT)) {
+            genCode += generatePrintCode(curr_subc);
         }
-        return genCode;
+        else {
+            continue;
+        }
+        genCode += "; <br>"
+        console.log(genCode)
     }
+    return genCode;
 }
 
-console.log(generateCode() + "123")
+// console.log(generateCode() + "123")
 
+function generatePrintCode(el) {
+    console.log("i work genprint")
+    let message = el.getElementsByClassName('message')[0].value
+    let printcode = 'echo "' + message + '"';
+    return printcode;
+}
 
-function generateVariableCode() {
+function generateVariableCode(el) {
     console.log("i work genvar")
-    let vname = document.getElementById('varname')
-    let vvalue = document.getElementById('varValue')
+    let vname = el.getElementsByClassName('varname')[0].value
+    let vvalue = el.getElementsByClassName('varValue')[0].value
     let varcode = "$" + vname + ' = ' + vvalue
     return varcode;
 }
 
-function generateMathCode() {
+function generateMathCode(el) {
     console.log("i work genmath")
-    val1 = document.getElementById("val1")
-    val2 = document.getElementById("val2")
-    let mathcode = val1 + ' + ' + val2
+    val1 = el.getElementsByClassName("value1")[0].value
+    val2 = el.getElementsByClassName("value2")[0].value
+    res = el.getElementsByClassName("result")[0].value
+    op = el.getElementsByClassName("operation")[0].value
+    let mathcode = "$" + res + " = " + val1 + ' ' + op + ' ' + val2
     return mathcode;
 }
 
@@ -309,5 +359,21 @@ function sendtoserver() {
     xhr.send("code=" + encodeURIComponent(phpcodegen));
     xhr.onload = () => {
         document.getElementById("output").innerText = xhr.responseText;
+    }
+}
+
+//create a post request to runcode.php
+//send the generated code to the server
+//get the result from the server and print it
+
+function runCode() {
+    let code = generateCode().replace(/<br>/g, "");
+    console.log(code)
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "runcode.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("code=" + encodeURIComponent(code));
+    xhr.onload = () => {
+        document.getElementById("outputshow").innerHTML = xhr.responseText;
     }
 }

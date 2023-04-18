@@ -99,11 +99,18 @@ body {
     width: 59%;
     height: 60%;
     padding: 10px;
+    display: grid;
+    grid-template-rows: 1fr 10fr 1fr 10fr;
+    /* flex-direction: column; */
+  }
+
+  #code > div {
+    overflow: auto;
   }
   
   .button {
     background-color: var(--tc);
-    border-radius: 50%;
+    /* border-radius: 50%; */
     color: var(--bgc);
     cursor: pointer;
     font-size: 100%;
@@ -113,10 +120,16 @@ body {
     top:79%;
     position: fixed;
     text-align:justify;
-    height: 60px;
+    /* height: 60px; */
     padding: 5px;
+    border-radius: 100rem;
     font-weight:bolder;
-    width: 60px;
+    /* width: 60px; */
+    text-align: center;
+  }
+
+  .button.exec {
+    top: 72%;
   }
   
   /* Change the button color on hover */
@@ -128,6 +141,14 @@ body {
   #components, #programmable-area {
     display: flex;
     justify-content: center;
+    overflow: auto;
+  }
+
+  #programmable-area {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem;
+    gap: 1rem;
   }
   
   /* Add a box-shadow effect on the components on hover */
